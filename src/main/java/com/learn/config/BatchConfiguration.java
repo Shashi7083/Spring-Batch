@@ -46,10 +46,10 @@ public class BatchConfiguration {
 					
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						boolean isSuccess = false;
+						boolean isFailure = false; // true for fail this step
 						
 						//to fail this job to restart again by doing isSuccess  as false
-						if(isSuccess) {
+						if(isFailure) {
 							throw new Exception("test exception");
 						}
 						
@@ -77,10 +77,11 @@ public class BatchConfiguration {
 	@Bean
 	public Job firstJob() {
 		return this.jobBuilderFactory.get("job1")
-				.preventRestart()
 				.start(step1())
-				.next(step2())
-				.next(step3())
+					.on("COMPLETED").to(step2())
+				.from(step2())
+					.on("COMPLETED").to(step3())
+				.end()
 				.build();
 	}
 	
