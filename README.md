@@ -26,6 +26,17 @@ This is where I explore how batch processing works in Java using **Spring Boot a
 ![Spring Batch Output](https://github.com/user-attachments/assets/786580e9-ac5b-4fb3-8a70-71c86064e269)
 
 ---
+## 📸 Output (Job Restart & Prevent Restart)
+
+> Screenshot of my job execution with failing job and restart configured 👇
+![restart preventRestart](https://github.com/user-attachments/assets/ea100ff2-6a91-4cb3-9c64-0c47ad838ffc)
+
+---
+## 📸 Output (Conditional flow {on, to and from} )
+
+> Screenshot of my job execution conditional flow configured 👇
+![conditional flow for sequential step operation](https://github.com/user-attachments/assets/98590f98-b766-46a4-9f05-909d2ab7921c)
+
 
 ## 🛠 Tech Stack
 
