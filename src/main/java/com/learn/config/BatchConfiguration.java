@@ -40,11 +40,19 @@ public class BatchConfiguration {
 	
 	@Bean
 	public Step step2() {
+		
 		return this.stepBuilderFactory.get("step2")
 				.tasklet(new Tasklet() {
 					
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+						boolean isSuccess = false;
+						
+						//to fail this job to restart again by doing isSuccess  as false
+						if(isSuccess) {
+							throw new Exception("test exception");
+						}
+						
 						System.out.println("Step 2 Executed");
 						return RepeatStatus.FINISHED;
 					}
@@ -69,6 +77,7 @@ public class BatchConfiguration {
 	@Bean
 	public Job firstJob() {
 		return this.jobBuilderFactory.get("job1")
+				.preventRestart()
 				.start(step1())
 				.next(step2())
 				.next(step3())
