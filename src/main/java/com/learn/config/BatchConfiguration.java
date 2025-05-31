@@ -3,6 +3,7 @@ package com.learn.config;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -12,6 +13,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.learn.listener.MyStepExecutionListener;
 
 @Configuration
 @EnableBatchProcessing
@@ -24,6 +27,11 @@ public class BatchConfiguration {
 	
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
+	
+	@Bean
+	public StepExecutionListener myStepExecutionListener() {
+		return new MyStepExecutionListener();
+	};
 	
 	@Bean
 	public Step step1() {
@@ -46,7 +54,7 @@ public class BatchConfiguration {
 					
 					@Override
 					public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-						boolean isFailure = true; // true for fail this step
+						boolean isFailure = false; // true for fail this step
 						
 						//to fail this job to restart again by doing isSuccess  as false
 						if(isFailure) {
@@ -56,7 +64,9 @@ public class BatchConfiguration {
 						System.out.println("Step 2 Executed");
 						return RepeatStatus.FINISHED;
 					}
-				}).build();
+				})
+				.listener(myStepExecutionListener())
+				.build();
 	}
 	
 	@Bean
@@ -93,7 +103,7 @@ public class BatchConfiguration {
 				.start(step1())
 					.on("COMPLETED").to(step2())
 				.from(step2())
-					.on("COMPLETED").to(step3())
+					.on("TEST_STATUS").to(step3())
 				.from(step2())
 					.on("*").to(step4())
 				.end()
