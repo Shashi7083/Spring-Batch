@@ -34,8 +34,14 @@ This is where I explore how batch processing works in Java using **Spring Boot a
 ---
 ## 📸 Output (Conditional flow {on, to and from} )
 
-> Screenshot of my job execution conditional flow configured 👇
+
 ![conditional flow for sequential step operation](https://github.com/user-attachments/assets/98590f98-b766-46a4-9f05-909d2ab7921c)
+
+---
+## 📸 Output (Conditional flow [Custom Exit Status] )
+
+> Screenshot of custom ("TEST_STATUS") CREATED 👇
+![conditional flow for sequential step operation](https://github.com/user-attachments/assets/048ef4d2-56e0-4969-823b-8470634f9f98)
 
 
 ## 🛠 Tech Stack
